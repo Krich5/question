@@ -114,7 +114,7 @@
             <span class="small">Take my money 🛒</span>
           </button>
           <div style="position:relative;min-height:120px;display:grid;place-items:center">
-            <div class="no-note">Dont<br>Click! ↓</div>
+            <div class="no-note">This button<br>moves around! ↓</div>
             <button id="noBtn" type="button">No 🙄</button>
           </div>
         </div>
@@ -237,16 +237,26 @@
           );
         };
 
-        // Try random positions first so the button still feels unpredictable.
-        // Reject any candidate that enters the YES safety zone.
+        // Make every escape feel like an actual JUMP. Once the button has moved
+        // into the card, reject positions that are too close to where it currently is.
+        const currentRect = no.getBoundingClientRect();
+        const currentX = currentRect.left - shellRect.left;
+        const currentY = currentRect.top - shellRect.top;
+        const availableDiagonal = Math.hypot(maxX - minX, maxY - minY);
+        // About 34% of the usable area diagonal, with sensible phone/desktop limits.
+        const minJump = Math.min(230, Math.max(125, availableDiagonal * 0.34));
+        const distanceFromCurrent = (x, y) => Math.hypot(x - currentX, y - currentY);
+
+        // Try lots of random positions. A candidate has to satisfy BOTH rules:
+        // 1) stay clear of YES, and 2) be meaningfully far from the last position.
         let x = minX;
         let y = minY;
         let foundSafeSpot = false;
 
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 180; i++) {
           const candidateX = minX + Math.random() * Math.max(0, maxX - minX);
           const candidateY = minY + Math.random() * Math.max(0, maxY - minY);
-          if (!overlapsYes(candidateX, candidateY)) {
+          if (!overlapsYes(candidateX, candidateY) && distanceFromCurrent(candidateX, candidateY) >= minJump) {
             x = candidateX;
             y = candidateY;
             foundSafeSpot = true;
@@ -254,23 +264,28 @@
           }
         }
 
-        // Extremely small Safari viewports can leave very little random space.
-        // In that case, choose the first safe edge/corner rather than ever
-        // placing No on top of YES.
+        // If the visible iPhone area is unusually cramped, evaluate several safe
+        // edge/corner spots and choose the one FARTHEST from the current button.
+        // This prevents the pathetic 4-pixel scoot even in Safari's smallest viewport.
         if (!foundSafeSpot) {
           const fallbackSpots = [
             [maxX, minY], [maxX, maxY], [minX, minY], [minX, maxY],
-            [maxX, (minY + maxY) / 2], [minX, (minY + maxY) / 2]
-          ];
-          const safe = fallbackSpots.find(([fx, fy]) => !overlapsYes(fx, fy));
-          if (safe) [x, y] = safe;
-          else {
-            // Last-resort: park it just above or below YES, clamped to card bounds.
-            x = Math.min(maxX, Math.max(minX, protectedYes.right + 4));
-            y = minY;
-            if (overlapsYes(x, y)) {
-              x = maxX;
-              y = Math.min(maxY, Math.max(minY, protectedYes.bottom + 4));
+            [maxX, (minY + maxY) / 2], [minX, (minY + maxY) / 2],
+            [(minX + maxX) / 2, minY], [(minX + maxX) / 2, maxY]
+          ]
+            .filter(([fx, fy]) => !overlapsYes(fx, fy))
+            .sort((a, b) => distanceFromCurrent(b[0], b[1]) - distanceFromCurrent(a[0], a[1]));
+
+          if (fallbackSpots.length) {
+            [x, y] = fallbackSpots[0];
+          } else {
+            // Last-resort: choose whichever legal edge is farthest away.
+            const legalEdges = [
+              [minX, minY], [maxX, minY], [minX, maxY], [maxX, maxY]
+            ].filter(([fx, fy]) => !overlapsYes(fx, fy));
+            if (legalEdges.length) {
+              legalEdges.sort((a, b) => distanceFromCurrent(b[0], b[1]) - distanceFromCurrent(a[0], a[1]));
+              [x, y] = legalEdges[0];
             }
           }
         }

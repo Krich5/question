@@ -173,18 +173,53 @@
 
       function moveNo() {
         attempts++;
-        const shellRect = shell.getBoundingClientRect();
-        const btnRect = no.getBoundingClientRect();
 
-        // Once she starts fighting the button, let it escape around the card.
-        no.style.position = 'absolute';
-        const pad = 12;
-        const minY = Math.max(220, shellRect.height * 0.30);
-        const maxX = Math.max(pad, shellRect.width - btnRect.width - pad);
-        const maxY = Math.max(minY, shellRect.height - btnRect.height - 80);
-        no.style.left = (pad + Math.random() * Math.max(1, maxX - pad)) + 'px';
-        no.style.top = (minY + Math.random() * Math.max(1, maxY - minY)) + 'px';
-        no.style.transform = `rotate(${(Math.random()*18-9).toFixed(1)}deg)`;
+        // On the first escape, move the button directly into the bordered card.
+        // That makes the card itself the positioning container instead of the
+        // much smaller answer row.
+        if (no.parentElement !== shell) {
+          shell.appendChild(no);
+          no.style.position = 'absolute';
+        }
+
+        const shellRect = shell.getBoundingClientRect();
+        const btnWidth = no.offsetWidth;
+        const btnHeight = no.offsetHeight;
+        const pad = 14;
+
+        // Horizontal bounds: always remain inside the blue border.
+        const minX = pad;
+        const maxX = Math.max(minX, shell.clientWidth - btnWidth - pad);
+
+        // Vertical bounds: stay inside the card AND inside the currently visible
+        // portion of the iPhone viewport, so the button never appears to vanish.
+        const viewportTopInShell = Math.max(pad, -shellRect.top + 72);
+        const viewportBottomInShell = Math.min(
+          shell.clientHeight - btnHeight - pad,
+          window.innerHeight - shellRect.top - btnHeight - 28
+        );
+
+        // Keep it below the main question when possible, but fall back to the
+        // visible area if the browser viewport is especially short.
+        const preferredTop = Math.max(245, shell.clientHeight * 0.27);
+        let minY = Math.max(viewportTopInShell, Math.min(preferredTop, viewportBottomInShell));
+        let maxY = Math.max(minY, viewportBottomInShell);
+
+        // If Safari's collapsing address bar gives us a temporarily tiny range,
+        // use any valid area inside the card instead of allowing an off-card jump.
+        if (maxY - minY < 12) {
+          minY = Math.max(pad, viewportTopInShell);
+          maxY = Math.max(minY, Math.min(shell.clientHeight - btnHeight - pad, viewportBottomInShell));
+        }
+
+        const x = minX + Math.random() * Math.max(0, maxX - minX);
+        const y = minY + Math.random() * Math.max(0, maxY - minY);
+
+        no.style.left = `${Math.round(x)}px`;
+        no.style.top = `${Math.round(y)}px`;
+        no.style.right = 'auto';
+        no.style.bottom = 'auto';
+        no.style.transform = `rotate(${(Math.random() * 18 - 9).toFixed(1)}deg)`;
 
         status.textContent = lines[Math.min(attempts - 1, lines.length - 1)];
         if (attempts >= 3) yes.querySelector('.big').textContent = '😍 YES — BUY IT!';
@@ -207,9 +242,12 @@
 
       restart.addEventListener('click', () => {
         attempts = 0;
+        if (no.parentElement !== area) area.appendChild(no);
         no.style.position = 'relative';
         no.style.left = '';
         no.style.top = '';
+        no.style.right = '';
+        no.style.bottom = '';
         no.style.transform = '';
         yes.style.transform = '';
         yes.querySelector('.big').textContent = '😍 YES!';

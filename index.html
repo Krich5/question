@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Important Marriage Decision</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #111827);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .card {
+      width: min(92vw, 700px);
+      min-height: 520px;
+      background: #1f2937;
+      border: 1px solid #374151;
+      border-radius: 28px;
+      padding: 40px 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .badge {
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #9ca3af;
+      margin-bottom: 14px;
+    }
+
+    .wheel {
+      font-size: 64px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: clamp(30px, 6vw, 48px);
+      margin: 0;
+      line-height: 1.08;
+    }
+
+    .subtitle {
+      color: #9ca3af;
+      max-width: 520px;
+      margin: 16px auto 34px;
+      line-height: 1.5;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-weight: 800;
+      border-radius: 14px;
+      min-width: 130px;
+      min-height: 52px;
+      font-size: 17px;
+      transition: transform 0.15s ease;
+    }
+
+    #yesBtn {
+      background: #22c55e;
+      color: white;
+      position: relative;
+      z-index: 2;
+    }
+
+    #yesBtn:hover {
+      transform: scale(1.07);
+    }
+
+    #noBtn {
+      background: #374151;
+      color: white;
+      position: absolute;
+      left: calc(50% + 45px);
+      top: 335px;
+      z-index: 3;
+    }
+
+    .button-area {
+      margin-top: 20px;
+      padding-right: 150px;
+    }
+
+    #message {
+      min-height: 28px;
+      margin-top: 34px;
+      color: #fbbf24;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .fine-print {
+      position: absolute;
+      bottom: 18px;
+      left: 20px;
+      right: 20px;
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    #approved {
+      display: none;
+      height: 100%;
+      min-height: 430px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    #approved h2 {
+      font-size: clamp(42px, 8vw, 70px);
+      margin: 10px 0;
+      color: #22c55e;
+    }
+
+    #approved p {
+      color: #d1d5db;
+      font-size: 18px;
+      max-width: 500px;
+      line-height: 1.5;
+    }
+
+    .celebrate {
+      font-size: 80px;
+    }
+
+    @media (max-width: 500px) {
+      .card {
+        min-height: 570px;
+        padding: 30px 18px;
+      }
+
+      .button-area {
+        padding-right: 0;
+      }
+
+      #noBtn {
+        top: 380px;
+        left: 58%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+
+    <div id="questionScreen">
+      <div class="wheel">🛞</div>
+
+      <div class="badge">
+        Official Spousal Approval Request
+      </div>
+
+      <h1>
+        Should I buy the new Onewheel GTS?
+      </h1>
+
+      <p class="subtitle">
+        Please carefully review all available options before making
+        this extremely important household financial decision.
+      </p>
+
+      <div class="button-area">
+        <button id="yesBtn">
+          YES! Obviously 😍
+        </button>
+      </div>
+
+      <button id="noBtn">
+        No 🙄
+      </button>
+
+      <div id="message">
+        Choose wisely.
+      </div>
+
+      <div class="fine-print">
+        * This survey has been independently audited and is definitely not rigged.
+      </div>
+    </div>
+
+    <div id="approved">
+      <div class="celebrate">
+        🎉🛞🎉
+      </div>
+
+      <h2>
+        APPROVED!
+      </h2>
+
+      <p>
+        Your response has been officially recorded as authorization
+        for the purchase of a new Onewheel GTS.
+      </p>
+
+      <p>
+        Thank you for supporting your husband's completely reasonable,
+        financially responsible, and absolutely necessary hobbies. 😂
+      </p>
+
+      <p style="font-weight:bold;">
+        Screenshot this page for proof.
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    const card = document.querySelector(".card");
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const message = document.getElementById("message");
+    const questionScreen = document.getElementById("questionScreen");
+    const approved = document.getElementById("approved");
+
+    let attempts = 0;
+
+    const messages = [
+      "Hmm. That button seems defective. 🤔",
+      "Nice try. 😂",
+      "Are you SURE about that?",
+      "The No department is currently unavailable.",
+      "Please select the correct answer.",
+      "That looked dangerously close to a No.",
+      "Request denied. Try again.",
+      "System error: wife selected incorrect option.",
+      "Kenley has requested a recount.",
+      "Onewheel acquisition protocol remains active.",
+      "Just hit YES already. 😂"
+    ];
+
+    function moveNoButton() {
+      attempts++;
+
+      const cardRect = card.getBoundingClientRect();
+      const buttonRect = noBtn.getBoundingClientRect();
+
+      const padding = 12;
+
+      const maxX =
+        cardRect.width -
+        buttonRect.width -
+        padding;
+
+      const minY = 210;
+
+      const maxY =
+        cardRect.height -
+        buttonRect.height -
+        50;
+
+      const randomX =
+        padding +
+        Math.random() *
+        (maxX - padding);
+
+      const randomY =
+        minY +
+        Math.random() *
+        (maxY - minY);
+
+      noBtn.style.left = randomX + "px";
+      noBtn.style.top = randomY + "px";
+
+      message.textContent =
+        messages[
+          Math.min(
+            attempts - 1,
+            messages.length - 1
+          )
+        ];
+
+      if (attempts >= 4) {
+        yesBtn.textContent =
+          "YES — BUY THE GTS 🛞🔥";
+
+        const size =
+          Math.min(
+            1.35,
+            1 + attempts * 0.035
+          );
+
+        yesBtn.style.transform =
+          `scale(${size})`;
+      }
+    }
+
+    /*
+      Desktop:
+      The button moves before she can click it.
+    */
+
+    noBtn.addEventListener(
+      "mouseenter",
+      moveNoButton
+    );
+
+    /*
+      Mobile:
+      If she taps No, move it instead
+      of allowing the click.
+    */
+
+    noBtn.addEventListener(
+      "touchstart",
+      function(event) {
+        event.preventDefault();
+        moveNoButton();
+      },
+      { passive: false }
+    );
+
+    noBtn.addEventListener(
+      "click",
+      function(event) {
+        event.preventDefault();
+        moveNoButton();
+      }
+    );
+
+    /*
+      The only actual working answer.
+    */
+
+    yesBtn.addEventListener(
+      "click",
+      function() {
+        questionScreen.style.display =
+          "none";
+
+        approved.style.display =
+          "flex";
+      }
+    );
+  </script>
+
+</body>
+</html>

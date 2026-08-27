@@ -1,444 +1,221 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#06111f" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#020813" />
   <title>Important Husband Decision</title>
   <style>
-    :root {
-      --bg: #030812;
-      --panel: rgba(8, 20, 36, .92);
-      --panel-2: rgba(13, 31, 53, .78);
-      --line: rgba(92, 174, 255, .20);
-      --blue: #1da1ff;
-      --blue-2: #0a74ff;
-      --cyan: #52d6ff;
-      --text: #f7fbff;
-      --muted: #9caec1;
-      --good: #16d784;
-      --warning: #a7b3c2;
+    :root{
+      --bg:#020813;
+      --panel:#06111f;
+      --panel2:#091729;
+      --line:#15365a;
+      --blue:#159cff;
+      --blue2:#55c9ff;
+      --text:#f7fbff;
+      --muted:#a9b6c7;
+      --soft:#637386;
     }
-
-    * { box-sizing: border-box; }
-
-    html, body { margin: 0; min-height: 100%; background: var(--bg); }
-
-    body {
-      min-height: 100dvh;
-      color: var(--text);
-      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
-      overflow-x: hidden;
+    *{box-sizing:border-box}
+    html{background:var(--bg)}
+    body{
+      margin:0;
+      min-height:100%;
+      font-family:Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--text);
       background:
-        radial-gradient(circle at 50% -10%, rgba(22, 147, 255, .18), transparent 34%),
-        radial-gradient(circle at 85% 45%, rgba(0, 141, 255, .08), transparent 25%),
-        linear-gradient(180deg, #06111f 0%, #030812 72%);
+        radial-gradient(circle at 50% 18%, rgba(20,139,255,.13), transparent 26%),
+        radial-gradient(circle at 50% 60%, rgba(0,132,255,.08), transparent 34%),
+        linear-gradient(180deg,#020813 0%,#01060d 100%);
+      overflow-x:hidden;
     }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background-image: linear-gradient(rgba(255,255,255,.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
-      background-size: 34px 34px;
-      mask-image: linear-gradient(to bottom, black, transparent 80%);
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      opacity:.15;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size:28px 28px;
+      mask-image:linear-gradient(to bottom,black,transparent 72%);
     }
-
-    .shell {
-      width: min(100%, 920px);
-      margin: 0 auto;
-      padding: max(18px, env(safe-area-inset-top)) 16px max(28px, env(safe-area-inset-bottom));
+    .page{width:min(100%,560px);margin:0 auto;padding:16px 12px 28px}
+    .shell{
+      position:relative;
+      overflow:hidden;
+      border:1px solid rgba(30,142,255,.66);
+      border-radius:28px;
+      background:linear-gradient(180deg,rgba(5,17,31,.97),rgba(2,10,19,.98));
+      box-shadow:0 0 0 1px rgba(255,255,255,.02) inset,0 26px 90px rgba(0,0,0,.45);
+      padding:28px 18px 18px;
     }
-
-    .card {
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(136, 194, 255, .24);
-      border-radius: 30px;
-      background: linear-gradient(180deg, rgba(8, 20, 36, .96), rgba(4, 12, 24, .96));
-      box-shadow: 0 24px 90px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255,255,255,.04);
+    .shell::after{
+      content:"";position:absolute;left:5%;right:5%;top:31%;height:34%;pointer-events:none;
+      background:radial-gradient(ellipse at center,rgba(0,151,255,.19),transparent 66%);
+      filter:blur(18px);
     }
-
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at 20% 0%, rgba(29,161,255,.13), transparent 22%),
-        radial-gradient(circle at 85% 38%, rgba(29,161,255,.10), transparent 25%);
-    }
-
-    .content {
-      position: relative;
-      z-index: 1;
-      padding: 34px 28px 24px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      border: 1px solid var(--line);
-      background: rgba(11, 29, 50, .72);
-      border-radius: 999px;
-      padding: 10px 14px;
-      color: #8bc9ff;
-      letter-spacing: .18em;
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
-
-    .eyebrow-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--blue);
-      box-shadow: 0 0 16px rgba(29,161,255,.9);
-    }
-
-    h1 {
-      margin: 22px 0 12px;
-      max-width: 760px;
-      font-size: clamp(38px, 7vw, 72px);
-      line-height: .98;
-      letter-spacing: -.045em;
-    }
-
-    .accent {
-      background: linear-gradient(90deg, #43c8ff, #1786ff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .intro {
-      margin: 0;
-      max-width: 680px;
-      color: var(--muted);
-      font-size: clamp(15px, 2.8vw, 20px);
-      line-height: 1.55;
-    }
-
-    .product-wrap {
-      position: relative;
-      margin: 18px -8px 8px;
-      min-height: 260px;
-      display: grid;
-      place-items: center;
-    }
-
-    .product-wrap::after {
-      content: "";
-      position: absolute;
-      width: 68%;
-      height: 38px;
-      bottom: 28px;
-      border-radius: 50%;
-      background: rgba(20, 154, 255, .22);
-      filter: blur(20px);
-      transform: perspective(120px) rotateX(58deg);
-    }
-
-    .product {
-      position: relative;
-      z-index: 2;
-      display: block;
-      width: min(100%, 760px);
-      max-height: 360px;
-      object-fit: contain;
-      filter: drop-shadow(0 28px 30px rgba(0,0,0,.45));
-      transform: rotate(-2deg);
-      user-select: none;
-      -webkit-user-drag: none;
-    }
-
-    .features {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin: 2px 0 24px;
-    }
-
-    .feature {
-      padding: 14px 10px;
-      border-top: 1px solid rgba(255,255,255,.06);
-      text-align: center;
-      color: #c5d3e2;
-      font-size: 13px;
-    }
-
-    .feature strong { display: block; margin-bottom: 5px; color: #fff; font-size: 14px; }
-    .feature span { color: var(--blue); font-size: 21px; display: block; margin-bottom: 7px; }
-
-    .decision-zone {
-      position: relative;
-      min-height: 220px;
-      border: 1px solid rgba(109, 182, 255, .15);
-      border-radius: 22px;
-      background: linear-gradient(180deg, rgba(11, 29, 50, .78), rgba(7, 18, 32, .92));
-      padding: 20px;
-      overflow: hidden;
-    }
-
-    .decision-label {
-      color: #81c4ff;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-
-    .buttons {
-      position: relative;
-      min-height: 102px;
-    }
-
-    button {
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-      font: inherit;
-    }
-
-    #yesBtn {
-      position: absolute;
-      left: 0;
-      top: 8px;
-      min-width: min(62%, 360px);
-      min-height: 78px;
-      border: 1px solid rgba(121, 225, 255, .75);
-      border-radius: 20px;
-      color: white;
-      background: linear-gradient(135deg, #0db4ff, #096df2);
-      box-shadow: 0 12px 36px rgba(0, 126, 255, .32), inset 0 1px 0 rgba(255,255,255,.28);
-      cursor: pointer;
-      transition: transform .18s ease, box-shadow .18s ease;
-    }
-
-    #yesBtn strong { display: block; font-size: 27px; line-height: 1; }
-    #yesBtn small { display: block; margin-top: 8px; font-size: 13px; color: rgba(255,255,255,.86); font-weight: 650; }
-
-    @media (hover:hover) and (pointer:fine) {
-      #yesBtn:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 16px 42px rgba(0, 126, 255, .42); }
-    }
-
-    #noBtn {
-      position: absolute;
-      right: 8px;
-      top: 17px;
-      min-width: 112px;
-      min-height: 64px;
-      border: 1px solid rgba(255,255,255,.16);
-      border-radius: 17px;
-      color: #e9eef5;
-      background: linear-gradient(180deg, #263243, #182231);
-      box-shadow: 0 10px 24px rgba(0,0,0,.25);
-      cursor: pointer;
-      font-size: 18px;
-      font-weight: 800;
-      z-index: 4;
-      transition: left .14s ease, top .14s ease, transform .14s ease;
-    }
-
-    #status {
-      margin-top: 11px;
-      min-height: 22px;
-      color: #a9bed3;
-      font-size: 13px;
-    }
-
-    .fineprint {
-      margin: 18px 0 0;
-      color: #6f8297;
-      font-size: 11px;
-      line-height: 1.55;
-      text-align: center;
-    }
-
-    .success {
-      display: none;
-      min-height: 640px;
-      padding: 46px 28px 40px;
-      place-items: center;
-      text-align: center;
-    }
-
-    .success.show { display: grid; }
-    .main.hide { display: none; }
-
-    .success-inner { max-width: 620px; }
-    .success-mark { font-size: 74px; }
-    .success h2 { margin: 14px 0 8px; font-size: clamp(44px, 10vw, 82px); letter-spacing: -.05em; }
-    .success p { color: var(--muted); font-size: 18px; line-height: 1.55; }
-
-    .receipt {
-      margin: 26px auto 0;
-      padding: 16px 18px;
-      border: 1px dashed rgba(103, 191, 255, .28);
-      border-radius: 18px;
-      background: rgba(11, 29, 50, .62);
-      color: #c8d9e9;
-      font-size: 13px;
-      line-height: 1.55;
-    }
-
-    @media (max-width: 680px) {
-      .shell { padding-left: 10px; padding-right: 10px; }
-      .card { border-radius: 24px; }
-      .content { padding: 26px 18px 18px; }
-      .features { grid-template-columns: repeat(2, 1fr); }
-      .product-wrap { min-height: 210px; margin-top: 10px; }
-      .decision-zone { min-height: 252px; padding: 16px; }
-      .buttons { min-height: 138px; }
-      #yesBtn { min-width: 66%; min-height: 76px; }
-      #yesBtn strong { font-size: 24px; }
-      #noBtn { top: 94px; right: 12px; }
-    }
-
-    @media (max-width: 390px) {
-      .content { padding-left: 15px; padding-right: 15px; }
-      .eyebrow { font-size: 9px; }
-      .features { gap: 5px; }
-      .feature { padding-left: 5px; padding-right: 5px; }
-      #yesBtn { min-width: 72%; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * { transition: none !important; scroll-behavior: auto !important; }
-    }
+    .inner{position:relative;z-index:2}
+    .badge{display:flex;justify-content:center;margin-bottom:22px}
+    .badge span{display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border:1px solid #173c66;border-radius:999px;background:rgba(5,20,37,.72);font-size:12px;font-weight:800;letter-spacing:.09em;color:#54b9ff;text-transform:uppercase}
+    .heart{font-size:18px;line-height:1}
+    h1{margin:0 auto;text-align:center;max-width:470px;font-size:clamp(36px,9vw,56px);line-height:.98;letter-spacing:-.055em;font-weight:900}
+    h1 .blue{background:linear-gradient(180deg,#74d6ff,#078cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .sub{max-width:430px;margin:16px auto 0;text-align:center;color:#bdc9d8;font-size:16px;line-height:1.55}
+    .product-zone{position:relative;margin:18px -10px 2px;min-height:255px;display:flex;align-items:center;justify-content:center}
+    .product-zone::before{content:"";position:absolute;width:82%;height:38%;bottom:38px;border-radius:50%;background:rgba(0,146,255,.19);filter:blur(30px)}
+    .product-zone::after{content:"";position:absolute;width:78%;height:6px;bottom:41px;border-radius:999px;background:#19a8ff;box-shadow:0 0 22px 8px rgba(25,168,255,.27);opacity:.48}
+    .board{position:relative;z-index:2;width:112%;max-width:650px;height:auto;display:block;filter:drop-shadow(0 22px 24px rgba(0,0,0,.55))}
+    .scribble{position:absolute;z-index:3;color:#24a8ff;font-family:"Comic Sans MS","Bradley Hand",cursive;font-weight:700;font-size:17px;line-height:1.05;transform:rotate(-8deg);text-shadow:0 0 12px rgba(0,137,255,.25)}
+    .scribble.left{left:6px;top:78px}.scribble.right{right:3px;top:120px;transform:rotate(6deg)}
+    .arrow{display:block;font-size:38px;margin-top:5px}.tiny-heart{position:absolute;right:22px;top:12px;color:#159cff;font-size:42px;transform:rotate(12deg)}
+    .answers{position:relative;min-height:150px;margin-top:-2px;padding:10px 4px 4px;display:grid;grid-template-columns:minmax(0,1.65fr) minmax(112px,.8fr);gap:16px;align-items:center}
+    button{font:inherit}
+    #yesBtn{border:1px solid #77d9ff;border-radius:22px;background:linear-gradient(180deg,#28adff 0%,#037bf3 58%,#0863db 100%);color:#fff;padding:19px 10px 17px;min-height:116px;cursor:pointer;box-shadow:0 0 0 2px rgba(0,162,255,.18) inset,0 0 22px rgba(0,154,255,.42);text-shadow:0 2px 10px rgba(0,0,0,.22);transition:.18s ease;touch-action:manipulation}
+    #yesBtn:active{transform:scale(.98)}
+    #yesBtn .big{display:block;font-size:clamp(29px,8vw,43px);line-height:1;font-weight:950;letter-spacing:-.04em}
+    #yesBtn .small{display:block;margin-top:8px;font-size:16px;font-weight:600}
+    #noBtn{position:relative;border:1px solid #46556b;border-radius:20px;background:linear-gradient(180deg,#182234,#0d1421);color:#fff;min-height:82px;padding:14px 16px;font-size:24px;font-weight:900;cursor:pointer;box-shadow:0 14px 28px rgba(0,0,0,.26);transition:left .14s ease,top .14s ease,transform .14s ease;z-index:6;touch-action:none}
+    .no-note{position:absolute;right:0;top:-25px;font-family:"Comic Sans MS","Bradley Hand",cursive;color:#29aaff;font-size:14px;transform:rotate(7deg);pointer-events:none;text-align:center}
+    #status{margin:10px 0 2px;text-align:center;min-height:20px;color:#74c9ff;font-size:13px;font-weight:700}
+    .features{margin-top:14px;border:1px solid #173551;border-radius:20px;background:linear-gradient(180deg,rgba(6,22,39,.82),rgba(5,15,28,.86));display:grid;grid-template-columns:repeat(3,1fr);overflow:hidden}
+    .feature{padding:18px 11px;text-align:left;min-width:0}.feature+.feature{border-left:1px solid #173551}
+    .icon{font-size:27px;margin-bottom:8px}.feature strong{display:block;color:#3eafff;font-size:14px;margin-bottom:5px}.feature p{margin:0;color:#b5c0ce;font-size:12px;line-height:1.45}
+    .safe{margin-top:14px;border:1px solid #173551;border-radius:20px;background:linear-gradient(180deg,rgba(6,22,39,.82),rgba(5,15,28,.86));padding:17px 18px;display:flex;align-items:center;gap:14px}
+    .shield{width:48px;height:54px;display:grid;place-items:center;flex:0 0 auto;background:linear-gradient(180deg,#25adff,#0878ea);clip-path:polygon(50% 0,90% 15%,84% 72%,50% 100%,16% 72%,10% 15%);font-size:25px;font-weight:950}
+    .safe strong{display:block;color:#35aaff;font-size:18px;margin-bottom:4px}.safe p{margin:0;color:#b7c2cf;font-size:13px}.ring{margin-left:auto;font-size:34px;opacity:.85}
+    .legal{text-align:center;color:#65778b;font-size:11px;line-height:1.5;margin:16px 20px 2px}
+    .approved{display:none;text-align:center;padding:40px 6px 34px}
+    .approved.show{display:block}.main.hide{display:none}
+    .approved .confetti{font-size:58px}.approved h2{font-size:48px;margin:10px 0 8px;line-height:1;color:#43baff}.approved p{color:#b7c4d3;line-height:1.6;max-width:420px;margin:0 auto 14px}.proof{border:1px solid #1d436c;border-radius:18px;padding:14px;margin:24px auto 0;background:#07182a;color:#d7edff;font-weight:800}.restart{margin-top:16px;border:1px solid #34506e;background:#0a1624;color:#cfe9ff;border-radius:14px;padding:12px 18px;cursor:pointer}
+    @media(min-width:800px){.page{width:540px;padding-top:28px}.shell{padding:34px 24px 22px}.product-zone{min-height:285px}}
+    @media(max-width:430px){.page{padding:8px 7px 18px}.shell{border-radius:22px;padding:22px 13px 15px}h1{font-size:39px}.sub{font-size:14px}.product-zone{min-height:225px;margin-top:10px}.board{width:118%}.scribble{font-size:14px}.answers{grid-template-columns:1.55fr .8fr;gap:10px;min-height:138px}#yesBtn{min-height:104px;border-radius:18px}#noBtn{min-height:74px;font-size:21px}.features{grid-template-columns:1fr}.feature{display:grid;grid-template-columns:38px 1fr;column-gap:9px}.feature+.feature{border-left:0;border-top:1px solid #173551}.icon{grid-row:1/3;margin:0}.feature strong{margin-top:1px}.safe{padding:14px}.safe strong{font-size:16px}.ring{font-size:28px}.legal{margin-left:8px;margin-right:8px}}
   </style>
 </head>
 <body>
-  <main class="shell">
-    <section class="card" id="app">
-      <div class="main" id="mainScreen">
-        <div class="content">
-          <div class="eyebrow"><span class="eyebrow-dot"></span> Important Husband Decision</div>
-          <h1>Should I buy the new <span class="accent">Onewheel GTS?</span></h1>
-          <p class="intro">This is a very important question that requires your honest and loving opinion. Please review all available choices carefully. 😉</p>
+  <main class="page">
+    <section class="shell" id="shell">
+      <div class="inner main" id="mainScreen">
+        <div class="badge"><span><span class="heart">💙</span> Important Husband Decision</span></div>
+        <div class="tiny-heart" aria-hidden="true">♡</div>
+        <h1>Should I buy the new <span class="blue">Onewheel GTS?</span></h1>
+        <p class="sub">This is a very important question that requires your honest and loving opinion. 😉</p>
 
-          <div class="product-wrap">
-            <img class="product" src="assets/onewheel-gts.png" alt="Onewheel GTS" />
-          </div>
-
-          <div class="features" aria-label="Totally unbiased benefits">
-            <div class="feature"><span>⚡</span><strong>Pure Freedom</strong>Excellent excuse to go outside</div>
-            <div class="feature"><span>🏔️</span><strong>Adventure</strong>Roads, trails, questionable choices</div>
-            <div class="feature"><span>😎</span><strong>Big Smiles</strong>Scientifically probable</div>
-            <div class="feature"><span>💸</span><strong>Worth It</strong>Financial analysis pending</div>
-          </div>
-
-          <div class="decision-zone" id="decisionZone">
-            <div class="decision-label">Choose your answer below</div>
-            <div class="buttons" id="buttonArea">
-              <button type="button" id="yesBtn">
-                <strong>YES! 😍</strong>
-                <small>Let's do this.</small>
-              </button>
-              <button type="button" id="noBtn" aria-label="No">No 🙄</button>
-            </div>
-            <div id="status" aria-live="polite">Choose wisely. The system is definitely not biased.</div>
-          </div>
-
-          <p class="fineprint">DISCLAIMER: Selecting “Yes” may result in increased happiness for one person and mild eye-rolling for another. No refunds. Your answer may be screenshotted and cited later.</p>
+        <div class="product-zone">
+          <div class="scribble left">So much<br>fun <span class="arrow">↘</span></div>
+          <img class="board" src="assets/onewheel-gts-clean.png" alt="Onewheel GTS" />
+          <div class="scribble right">Pure<br>freedom <span class="arrow">↙</span></div>
         </div>
+
+        <div class="answers" id="answerArea">
+          <button id="yesBtn" type="button" aria-label="Yes, buy the Onewheel GTS">
+            <span class="big">😍 YES!</span>
+            <span class="small">Take my money 🛒</span>
+          </button>
+          <div style="position:relative;min-height:120px;display:grid;place-items:center">
+            <div class="no-note">This button<br>moves around! ↓</div>
+            <button id="noBtn" type="button">No 🙄</button>
+          </div>
+        </div>
+        <div id="status" aria-live="polite">Choose wisely...</div>
+
+        <section class="features" aria-label="Completely unbiased benefits">
+          <div class="feature"><div class="icon">🧭</div><strong>Go Anywhere</strong><p>Carve roads, trails, and everything in between.</p></div>
+          <div class="feature"><div class="icon">🔋</div><strong>Ride Longer</strong><p>Next-level range for endless adventures.</p></div>
+          <div class="feature"><div class="icon">😎</div><strong>Big Smiles</strong><p>Serious fun factor. Scientifically probable.</p></div>
+        </section>
+
+        <section class="safe">
+          <div class="shield">✓</div>
+          <div><strong>100% Marriage Safe</strong><p>Zero risk of divorce. Max happiness. Promise.</p></div>
+          <div class="ring">💍</div>
+        </section>
+
+        <p class="legal">🔒 Your answer is 100% confidential and legally binding.<br>(Just kidding... kind of.)</p>
       </div>
 
-      <section class="success" id="successScreen" aria-live="polite">
-        <div class="success-inner">
-          <div class="success-mark">🎉🛞🎉</div>
-          <h2>APPROVED.</h2>
-          <p>Excellent decision. Your response has been securely recorded as official spousal authorization for one brand-new Onewheel GTS.</p>
-          <div class="receipt"><strong>OFFICIAL RECEIPT</strong><br>Decision: YES<br>Status: Husband extremely pleased<br>Appeal window: suspiciously unavailable 😂</div>
-        </div>
-      </section>
+      <div class="approved" id="approvedScreen" aria-live="polite">
+        <div class="confetti">🎉 🛞 🎉</div>
+        <h2>APPROVED!</h2>
+        <p>Your response has been officially recorded as enthusiastic authorization for the purchase of a new Onewheel GTS.</p>
+        <p>Thank you for supporting your husband's completely reasonable, financially responsible, and absolutely necessary hobbies. 😂</p>
+        <div class="proof">📸 Screenshot this page for proof.</div>
+        <button class="restart" id="restartBtn" type="button">Review this important decision again</button>
+      </div>
     </section>
   </main>
 
   <script>
     (() => {
-      const zone = document.getElementById('decisionZone');
-      const buttonArea = document.getElementById('buttonArea');
-      const noBtn = document.getElementById('noBtn');
-      const yesBtn = document.getElementById('yesBtn');
+      const shell = document.getElementById('shell');
+      const area = document.getElementById('answerArea');
+      const yes = document.getElementById('yesBtn');
+      const no = document.getElementById('noBtn');
       const status = document.getElementById('status');
-      const mainScreen = document.getElementById('mainScreen');
-      const successScreen = document.getElementById('successScreen');
+      const main = document.getElementById('mainScreen');
+      const approved = document.getElementById('approvedScreen');
+      const restart = document.getElementById('restartBtn');
       let attempts = 0;
-      let lastMove = 0;
 
-      const messages = [
-        'Hmm. That button appears to be malfunctioning. 🤔',
+      const lines = [
+        'Hmm. That option appears to be malfunctioning. 🤔',
         'Nice try. 😂',
-        'Are you absolutely sure about that?',
-        'The No department is currently closed.',
-        'System error: incorrect answer detected.',
-        'Please select the financially irresponsible correct answer.',
-        'This feels personal now.',
-        'Kenley has requested an immediate recount.',
-        'Onewheel acquisition protocol remains active.',
-        'At this point just hit YES. 😂'
+        'Are you sure you meant to press that?',
+        'The No department is currently unavailable.',
+        'Incorrect response detected. Please try again.',
+        'Wow, persistence. I respect it. Still no.',
+        'Marriage survey integrity check failed. 😂',
+        'The universe really wants you to hit YES.',
+        'At this point the answer is basically predetermined.',
+        'JUST. HIT. YES. 😂'
       ];
 
-      function moveNoButton() {
-        const now = Date.now();
-        if (now - lastMove < 90) return;
-        lastMove = now;
+      function moveNo() {
         attempts++;
+        const shellRect = shell.getBoundingClientRect();
+        const btnRect = no.getBoundingClientRect();
 
-        const area = buttonArea.getBoundingClientRect();
-        const btn = noBtn.getBoundingClientRect();
-        const pad = 6;
-        const maxX = Math.max(pad, area.width - btn.width - pad);
-        const maxY = Math.max(pad, area.height - btn.height - pad);
+        // Once she starts fighting the button, let it escape around the card.
+        no.style.position = 'absolute';
+        const pad = 12;
+        const minY = Math.max(220, shellRect.height * 0.30);
+        const maxX = Math.max(pad, shellRect.width - btnRect.width - pad);
+        const maxY = Math.max(minY, shellRect.height - btnRect.height - 80);
+        no.style.left = (pad + Math.random() * Math.max(1, maxX - pad)) + 'px';
+        no.style.top = (minY + Math.random() * Math.max(1, maxY - minY)) + 'px';
+        no.style.transform = `rotate(${(Math.random()*18-9).toFixed(1)}deg)`;
 
-        let x = pad + Math.random() * Math.max(1, maxX - pad);
-        let y = pad + Math.random() * Math.max(1, maxY - pad);
-
-        // Keep it away from the YES button most of the time.
-        if (x < area.width * 0.60 && y < 90) {
-          x = Math.min(maxX, area.width * 0.66 + Math.random() * Math.max(1, maxX - area.width * 0.66));
-          y = Math.min(maxY, 76 + Math.random() * Math.max(1, maxY - 76));
-        }
-
-        noBtn.style.right = 'auto';
-        noBtn.style.left = x + 'px';
-        noBtn.style.top = y + 'px';
-        noBtn.style.transform = `rotate(${(-7 + Math.random() * 14).toFixed(1)}deg)`;
-
-        status.textContent = messages[Math.min(attempts - 1, messages.length - 1)] + `  No attempts: ${attempts}`;
-
-        if (attempts >= 4) {
-          yesBtn.querySelector('strong').textContent = 'YES — BUY IT 🛞🔥';
-          yesBtn.querySelector('small').textContent = 'The obvious choice.';
-          const scale = Math.min(1.14, 1 + attempts * 0.012);
-          yesBtn.style.transform = `scale(${scale})`;
-        }
+        status.textContent = lines[Math.min(attempts - 1, lines.length - 1)];
+        if (attempts >= 3) yes.querySelector('.big').textContent = '😍 YES — BUY IT!';
+        if (attempts >= 6) yes.style.transform = `scale(${Math.min(1.12, 1 + attempts * .012)})`;
       }
 
-      // Desktop: escape before the cursor gets a chance to click.
-      noBtn.addEventListener('mouseenter', moveNoButton);
+      no.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        moveNo();
+      });
+      no.addEventListener('mouseenter', moveNo);
+      no.addEventListener('focus', moveNo);
+      no.addEventListener('click', (e) => e.preventDefault());
 
-      // iPhone / touch: move immediately on touch before click can complete.
-      noBtn.addEventListener('pointerdown', (event) => {
-        event.preventDefault();
-        moveNoButton();
+      yes.addEventListener('click', () => {
+        main.classList.add('hide');
+        approved.classList.add('show');
+        window.scrollTo({top:0, behavior:'smooth'});
       });
 
-      noBtn.addEventListener('click', (event) => {
-        event.preventDefault();
-        moveNoButton();
-      });
-
-      yesBtn.addEventListener('click', () => {
-        mainScreen.classList.add('hide');
-        successScreen.classList.add('show');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+      restart.addEventListener('click', () => {
+        attempts = 0;
+        no.style.position = 'relative';
+        no.style.left = '';
+        no.style.top = '';
+        no.style.transform = '';
+        yes.style.transform = '';
+        yes.querySelector('.big').textContent = '😍 YES!';
+        status.textContent = 'Choose wisely...';
+        approved.classList.remove('show');
+        main.classList.remove('hide');
       });
     })();
   </script>

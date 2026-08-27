@@ -212,8 +212,65 @@
           maxY = Math.max(minY, Math.min(shell.clientHeight - btnHeight - pad, viewportBottomInShell));
         }
 
-        const x = minX + Math.random() * Math.max(0, maxX - minX);
-        const y = minY + Math.random() * Math.max(0, maxY - minY);
+        // YES is a protected zone. The runaway No button is never allowed
+        // to overlap it (or even get close enough for a sloppy thumb tap).
+        const yesRect = yes.getBoundingClientRect();
+        const safeGap = 30;
+        const protectedYes = {
+          left: yesRect.left - shellRect.left - safeGap,
+          right: yesRect.right - shellRect.left + safeGap,
+          top: yesRect.top - shellRect.top - safeGap,
+          bottom: yesRect.bottom - shellRect.top + safeGap
+        };
+
+        const overlapsYes = (x, y) => {
+          const right = x + btnWidth;
+          const bottom = y + btnHeight;
+          return !(
+            right < protectedYes.left ||
+            x > protectedYes.right ||
+            bottom < protectedYes.top ||
+            y > protectedYes.bottom
+          );
+        };
+
+        // Try random positions first so the button still feels unpredictable.
+        // Reject any candidate that enters the YES safety zone.
+        let x = minX;
+        let y = minY;
+        let foundSafeSpot = false;
+
+        for (let i = 0; i < 100; i++) {
+          const candidateX = minX + Math.random() * Math.max(0, maxX - minX);
+          const candidateY = minY + Math.random() * Math.max(0, maxY - minY);
+          if (!overlapsYes(candidateX, candidateY)) {
+            x = candidateX;
+            y = candidateY;
+            foundSafeSpot = true;
+            break;
+          }
+        }
+
+        // Extremely small Safari viewports can leave very little random space.
+        // In that case, choose the first safe edge/corner rather than ever
+        // placing No on top of YES.
+        if (!foundSafeSpot) {
+          const fallbackSpots = [
+            [maxX, minY], [maxX, maxY], [minX, minY], [minX, maxY],
+            [maxX, (minY + maxY) / 2], [minX, (minY + maxY) / 2]
+          ];
+          const safe = fallbackSpots.find(([fx, fy]) => !overlapsYes(fx, fy));
+          if (safe) [x, y] = safe;
+          else {
+            // Last-resort: park it just above or below YES, clamped to card bounds.
+            x = Math.min(maxX, Math.max(minX, protectedYes.right + 4));
+            y = minY;
+            if (overlapsYes(x, y)) {
+              x = maxX;
+              y = Math.min(maxY, Math.max(minY, protectedYes.bottom + 4));
+            }
+          }
+        }
 
         no.style.left = `${Math.round(x)}px`;
         no.style.top = `${Math.round(y)}px`;

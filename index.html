@@ -215,12 +215,15 @@
         // YES is a protected zone. The runaway No button is never allowed
         // to overlap it (or even get close enough for a sloppy thumb tap).
         const yesRect = yes.getBoundingClientRect();
-        const safeGap = 30;
+        const safeGap = 42;
+        const maxYesScale = 1.16;
+        const extraX = (yesRect.width * (maxYesScale - 1)) / 2;
+        const extraY = (yesRect.height * (maxYesScale - 1)) / 2;
         const protectedYes = {
-          left: yesRect.left - shellRect.left - safeGap,
-          right: yesRect.right - shellRect.left + safeGap,
-          top: yesRect.top - shellRect.top - safeGap,
-          bottom: yesRect.bottom - shellRect.top + safeGap
+          left: yesRect.left - shellRect.left - safeGap - extraX,
+          right: yesRect.right - shellRect.left + safeGap + extraX,
+          top: yesRect.top - shellRect.top - safeGap - extraY,
+          bottom: yesRect.bottom - shellRect.top + safeGap + extraY
         };
 
         const overlapsYes = (x, y) => {
@@ -280,7 +283,7 @@
 
         status.textContent = lines[Math.min(attempts - 1, lines.length - 1)];
         if (attempts >= 3) yes.querySelector('.big').textContent = '😍 YES — BUY IT!';
-        if (attempts >= 6) yes.style.transform = `scale(${Math.min(1.12, 1 + attempts * .012)})`;
+        if (attempts >= 6) yes.style.transform = `scale(${Math.min(1.16, 1 + attempts * .012)})`;
       }
 
       no.addEventListener('pointerdown', (e) => {
